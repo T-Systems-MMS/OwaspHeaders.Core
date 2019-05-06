@@ -20,8 +20,10 @@ steps:
     command: 'pack'
     feedsToUse: 'select'
     packagesToPack: '**/*.csproj'
-    nobuild: true
-    versioningScheme: 'byBuildNumber'
+    versioningScheme: 'byPrereleaseNumber'
+    majorVersion: '1'
+    minorVersion: '0'
+    patchVersion: '0'
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
