@@ -1,16 +1,11 @@
 namespace OwaspHeaders.Core.Models
 {
-    public class SecureHeadersMiddlewareConfiguration : ISecureHeadersMiddlewareConfiguration
+    public class SecureHeadersMiddlewareConfiguration
     {
         /// <summary>
         /// Indicates whether the response should use HTTP Strict Transport Security
         /// </summary>
         public bool UseHsts { get; set; }
-
-        /// <summary>
-        /// Indicates whether the response should use Public Key Pinning Extension for HTTP
-        /// </summary>
-        public bool UseHpkp { get; set; }
 
         /// <summary>
         /// Indicates whether the response should use X-Frame-Options
@@ -38,19 +33,21 @@ namespace OwaspHeaders.Core.Models
         public bool UsePermittedCrossDomainPolicy { get; set; }
 
         /// <summary>
-        /// Indicated wether the response should use Referrer-Policy
+        /// Indicates whether the response should use Referrer-Policy
         /// </summary>
         public bool UseReferrerPolicy { get; set; }
+        
+        /// <summary>
+        /// Indicates whether the response should use Expect-CT
+        /// </summary>
+        public bool UseExpectCt { get; set; }
+        
+        public bool RemoveXPoweredByHeader { get; set; }
 
         /// <summary>
         /// The HTTP Strict Transport Security configuration to use
         /// </summary>
         public HstsConfiguration HstsConfiguration { get; set; }
-
-        /// <summary>
-        /// The Public Key Pinning Extension for HTTP configuration to use
-        /// </summary>
-        public HPKPConfiguration HpkpConfiguration { get; set; }
 
         /// <summary>
         /// The X-Frame-Options configuration to use
@@ -77,25 +74,9 @@ namespace OwaspHeaders.Core.Models
         /// </summary>
         public ReferrerPolicy ReferrerPolicy { get; set; }
         
-        public SecureHeadersMiddlewareConfiguration()
-        {
-            UseHsts = false;
-            UseHpkp = false;
-            UseXFrameOptions = false;
-            UseXssProtection = false;
-            UseXContentTypeOptions = false;
-            UseContentSecurityPolicy = false;
-            UsePermittedCrossDomainPolicy = false;
-            UseReferrerPolicy = false;
-
-            HstsConfiguration = new HstsConfiguration();
-            HpkpConfiguration = new HPKPConfiguration();
-            XFrameOptionsConfiguration = new XFrameOptionsConfiguration();
-            XssConfiguration = new XssConfiguration();
-            ContentSecurityPolicyConfiguration = new ContentSecurityPolicyConfiguration();
-            PermittedCrossDomainPolicyConfiguration = new PermittedCrossDomainPolicyConfiguration();
-            ReferrerPolicy = new ReferrerPolicy();
-        }
-        
+        /// <summary>
+        /// The Expect-CT configuration to use
+        /// </summary>
+        public ExpectCt ExpectCt { get; set; }
     }
 }

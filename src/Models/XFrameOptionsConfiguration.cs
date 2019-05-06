@@ -1,17 +1,20 @@
 using System.Text;
 using OwaspHeaders.Core.Helpers;
+using OwaspHeaders.Core.Enums;
 
 namespace OwaspHeaders.Core.Models
 {
     public class XFrameOptionsConfiguration : IConfigurationBase
     {
-        public enum XFrameOptions { deny, sameorigin, allowfrom };
         public XFrameOptions OptionValue { get; set; }
         public string AllowFromDomain { get; set; }
 
-        public XFrameOptionsConfiguration()
+        protected XFrameOptionsConfiguration() { }
+
+        public XFrameOptionsConfiguration(XFrameOptions xFrameOption, string allowFromDomain)
         {
-            OptionValue = XFrameOptions.sameorigin;
+            OptionValue = xFrameOption;
+            AllowFromDomain = allowFromDomain;
         }
 
         /// <summary>
@@ -23,19 +26,21 @@ namespace OwaspHeaders.Core.Models
             var stringBuilder = new StringBuilder();
             switch (OptionValue)
             {
-                case XFrameOptions.deny:
-                    stringBuilder.Append("deny");
+                case XFrameOptions.Deny:
+                    stringBuilder.Append("DENY");
                     break;
-                case XFrameOptions.sameorigin:
-                    stringBuilder.Append("sameorigin");
+                case XFrameOptions.Sameorigin:
+                    stringBuilder.Append("SAMEORIGIN");
                     break;
-                case XFrameOptions.allowfrom:
+                case XFrameOptions.Allowfrom:
                     if (string.IsNullOrWhiteSpace(AllowFromDomain))
                     {
                         ArgumentExceptionHelper.RaiseException(nameof(AllowFromDomain));
                     }
-                    stringBuilder.Append("allow-from: ");
-                    stringBuilder.Append(AllowFromDomain);
+                    stringBuilder.Append($"ALLOW-FROM({AllowFromDomain})");
+                    break;
+                case XFrameOptions.AllowAll:
+                    stringBuilder.Append("ALLOWALL");
                     break;
             }
 
