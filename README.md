@@ -3,7 +3,7 @@ A .NET Core middleware for injecting the Owasp recommended HTTP Headers for incr
 
 ## Build status
 
-[![Build status](https://ci.appveyor.com/api/projects/status/atq517fyr9r7vl7m?svg=true)](https://ci.appveyor.com/project/GaProgMan/owaspheaders-core)
+[![Build Status](https://dev.azure.com/T-Systems-MMS/OwaspHeaders.Core/_apis/build/status/Compufreak345.OwaspHeaders.Core?branchName=master)](https://dev.azure.com/T-Systems-MMS/OwaspHeaders.Core/_build/latest?definitionId=1&branchName=master)
 
 ## Licence Used
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
