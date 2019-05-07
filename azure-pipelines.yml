@@ -1,0 +1,42 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+ - master
+ - feature/*
+ - fix/*
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  PrePackageSuffix: 'pre'
+
+steps:
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'master'))
+  displayName: 'Pack pre-package'
+  inputs:
+    command: custom
+    projects: '**/*.csproj'
+    custom: 'pack'
+    arguments: '--configuration $(buildConfiguration) --output $(build.artifactStagingDirectory) --version-suffix "$(PrePackageSuffix)-$(Build.BuildNumber)"'
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/head/master'))
+  displayName: 'Pack prod package'
+  inputs:
+    command: 'pack'
+    feedsToUse: 'select'
+    packagesToPack: '**/*.csproj'
+    versioningScheme: 'off'
+    arguments: '-o "$(Build.ArtifactStagingDirectory)" '
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'OwaspHeaders.Core'
+    publishLocation: 'Container'

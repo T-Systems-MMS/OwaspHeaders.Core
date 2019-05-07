@@ -3,16 +3,12 @@ A .NET Core middleware for injecting the Owasp recommended HTTP Headers for incr
 
 ## Build status
 
-[![Build status](https://ci.appveyor.com/api/projects/status/atq517fyr9r7vl7m?svg=true)](https://ci.appveyor.com/project/GaProgMan/owaspheaders-core)
+[![Build Status](https://dev.azure.com/T-Systems-MMS/OwaspHeaders.Core/_apis/build/status/Compufreak345.OwaspHeaders.Core?branchName=master)](https://dev.azure.com/T-Systems-MMS/OwaspHeaders.Core/_build/latest?definitionId=1&branchName=master)
 
 ## Licence Used
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 See the contents of the LICENSE file for details
-
-## Code Triage Status
-
-[![Code Triagers Badge](https://www.codetriage.com/gaprogman/owaspheaders.core/badges/users.svg)](https://www.codetriage.com/gaprogman/owaspheaders.core)
 
 ## Code of Conduct
 ClacksMiddleware has a Code of Conduct which all contributors, maintainers and forkers must adhere to. When contributing, maintaining, forking or in any other way changing the code presented in this repository, all users must agree to this Code of Conduct.
