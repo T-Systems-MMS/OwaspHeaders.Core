@@ -22,11 +22,10 @@ steps:
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'master'))
   displayName: 'Pack pre-package'
   inputs:
-    command: 'pack'
-    feedsToUse: 'select'
-    packagesToPack: '**/*.csproj'
-    versioningScheme: 'off'
-    arguments: '--version-suffix "$(PrePackageSuffix)-$(Build.BuildNumber)" -o "$(Build.ArtifactStagingDirectory)" '
+    command: custom
+    projects: '**/*.csproj'
+    custom: 'pack'
+    arguments: '--configuration $(buildConfiguration) --output $(build.artifactStagingDirectory) --version-suffix "$(PrePackageSuffix)-$(Build.BuildNumber)"'
 - task: DotNetCoreCLI@2
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'master'))
   displayName: 'Pack prod package'
