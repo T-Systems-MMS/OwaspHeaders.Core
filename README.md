@@ -23,7 +23,7 @@ Pull requests are welcome, but please take a moment to read the Code of Conduct 
 
 # NuGet package
 
-OwaspHeaders.Core is now availble as a NuGet package. The NuGet package can be accessed [here](https://www.nuget.org/packages/OwaspHeaders.Core/)
+OwaspHeaders.Core is available as a NuGet package. The NuGet package can be accessed [here](https://dev.azure.com/T-Systems-MMS/OwaspHeaders.Core/_packaging?_a=package&feed=T-Systems-MMS&package=OwaspHeaders.Core&protocolType=NuGet)
 
 # Development Logs
 
@@ -41,9 +41,25 @@ The `SecureHeadersMiddleware` is used to inject the HTTP headers recommended by 
 
 #### Usage
 
-Add a reference to the [NuGet package](https://www.nuget.org/packages/OwaspHeaders.Core) to your project
+Add a reference to the [NuGet package](https://dev.azure.com/T-Systems-MMS/OwaspHeaders.Core/_packaging?_a=package&feed=T-Systems-MMS&package=OwaspHeaders.Core&protocolType=NuGet) to your project.
 
-    dotnet add package OwaspHeaders.Core
+Add the following nuget feed to your project:
+`https://tfs.t-systems-mms.eu/scrum/_packaging/MMS.Internal/nuget/v3/index.json`
+
+We recommend placing a Nuget.config with the following content in your solution-directory, so the feed source is shared between all developers cloning your repository :
+```xml
+<configuration>
+    <packageSources>
+         <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+         <add key="MMS.Public" value="https://pkgs.dev.azure.com/T-Systems-MMS/_packaging/T-Systems-MMS/nuget/v3/index.json"/>
+    </packageSources>
+</configuration>
+```
+
+Now you can clone the package - if you don't want to hassle with authorization use the Visual Studio Wizard, otherwise you can get started with this command:
+```bash
+dotnet add package OwaspHeaders.Core --source "https://pkgs.dev.azure.com/T-Systems-MMS/_packaging/T-Systems-MMS/nuget/v3/index.json"
+```
 
 ## Configuration
 
@@ -105,89 +121,6 @@ Then consume it in the following manner:
 
 ``` charp
 app.UseSecureHeadersMiddleware(CustomSecureHeaderExtensions.CustomConfiguration());
-```
-
-
-
-#### Configuration in Version 2.x
-
-In the constructor for the `Startup` class, add a reference to a `secureHeaderSettings.json`
-
-``` csharp
-public Startup(IHostingEnvironment env)
-{
-    var builder = new ConfigurationBuilder()
-    .SetBasePath(env.ContentRootPath)
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-    .AddJsonFile("secureHeaderSettings.json", optional:true, reloadOnChange: true)
-    .AddEnvironmentVariables();
-    Configuration = builder.Build();
-}
-```
-The contents of the `secureHeaderSettings.json` file take the following format:
-
-``` json
-{
-    "SecureHeadersMiddlewareConfiguration": {
-        "UseHsts": "true",
-        "HstsConfiguration": {
-            "MaxAge": 42,
-            "IncludeSubDomains": "true"
-        },
-        "UseHpkp": "true",
-        "HPKPConfiguration" :{
-            "PinSha256" : [
-                "e927fad33f9eb96126896413502a1034be0ca379dec377fb891feb9ebc720e47"
-                ],
-            "MaxAge": 3,
-            "IncludeSubDomains": "true",
-            "ReportUri": "https://github.com/GaProgMan/OwaspHeaders.Core"
-        },
-        "UseXFrameOptions": "true",
-        "XFrameOptionsConfiguration": {
-            "OptionValue": "allowfrom",
-            "AllowFromDomain": "com.gaprogman.dotnetcore"
-        },
-        "UseXssProtection": "true",
-        "XssConfiguration": {
-            "XssSetting": "oneReport",
-            "ReportUri": "https://github.com/GaProgMan/OwaspHeaders.Core"
-        },
-        "UseXContentTypeOptions": "true",
-        "UseContentSecurityPolicy": "true",
-        "ContentSecurityPolicyConfiguration": {
-            "BlockAllMixedContent": "true",
-            "UpgradeInsecureRequests": "true"
-        }
-    }
-}
-```
-(the above file is provided for illustration purposes)
-
-Load the contents of the `secureHeaderSettings.json` into an instance of the `SecureHeadersMiddlewareConfiguration` in the Startup class'  `ConfigureServices` method.
-
-``` csharp
-public void ConfigureServices(IServiceCollection services)
-{
-    // Add framework services
-    // Add functionality to inject IOptions<T>
-    services.AddOptions();
-
-    // Add our Config object so it can be injected
-    services.Configure<SecureHeadersMiddlewareConfiguration>(Configuration.GetSection("SecureHeadersMiddlewareConfiguration"));
-}
-```
-
-Add the `SecureHeadersMiddleware` into the ASP.NET Core pipeline, in the Startup class' `Configure` method.
-
-``` csharp
-public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-    IOptions<SecureHeadersMiddlewareConfiguration> secureHeaderSettings)
-{
-    // Add SecureHeadersMiddleware to the pipeline
-    app.UseSecureHeadersMiddleware(secureHeaderSettings.Value);
-}
 ```
 
 #### Testing the Middleware
