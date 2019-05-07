@@ -4,26 +4,38 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
+ - master
+ - feature/*
+ - fix/*
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
   buildConfiguration: 'Release'
+  PrePackageSuffix: 'pre'
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 - task: DotNetCoreCLI@2
+  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'master'))
+  displayName: 'Pack pre-package'
   inputs:
     command: 'pack'
     feedsToUse: 'select'
     packagesToPack: '**/*.csproj'
-    versioningScheme: 'byPrereleaseNumber'
-    majorVersion: '1'
-    minorVersion: '0'
-    patchVersion: '0'
+    versioningScheme: 'off'
+    arguments: '--version-suffix "$(PrePackageSuffix)-$(Build.BuildNumber)" -o "$(Build.ArtifactStagingDirectory)" '
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'master'))
+  displayName: 'Pack prod package'
+  inputs:
+    command: 'pack'
+    feedsToUse: 'select'
+    packagesToPack: '**/*.csproj'
+    versioningScheme: 'off'
+    arguments: '-o "$(Build.ArtifactStagingDirectory)" '
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
