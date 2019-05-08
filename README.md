@@ -53,6 +53,14 @@ We recommend placing a Nuget.config with the following content in your solution-
          <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
          <add key="MMS.Public" value="https://pkgs.dev.azure.com/T-Systems-MMS/_packaging/T-Systems-MMS/nuget/v3/index.json"/>
     </packageSources>
+   <!-- Credentials are needed if you want to restore using an automated system or command line
+    <packageSourceCredentials>
+        <MMS.Public>
+          <add key="Username" value="TFS" />      
+          <add key="ClearTextPassword" value="Your Personal Access Token" />
+        </MMS.Public>
+     </packageSourceCredentials>
+    -->
 </configuration>
 ```
 
