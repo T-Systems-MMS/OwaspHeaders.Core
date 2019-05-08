@@ -3,10 +3,7 @@
 // Full details can be found at the folloing url:
 // https://scotthelme.co.uk/a-new-security-header-expect-ct/
 
-using System.Collections.Generic;
 using System.Text;
-using OwaspHeaders.Core.Enums;
-using OwaspHeaders.Core.Helpers;
 
 namespace OwaspHeaders.Core.Models
 {
@@ -29,19 +26,14 @@ namespace OwaspHeaders.Core.Models
         public int MaxAge { get; set; }
         
         /// <summary>
+        /// [OPTIONAL]
         /// The report-uri directive specifies where the browser should send reports
         /// if it does not receive valid CT information. This is specified as an
         /// absolute URI
         /// </summary>
         public string ReportUri { get; set; }
-        
-        /// <summary>
-        /// Protected constructor, we can no longer create instances of this
-        /// class without using the public constructor
-        /// </summary>
-        protected ExpectCt() { }
 
-        public ExpectCt(string reportUri, int maxAge = 86400, bool enforce = false)
+        public ExpectCt(string reportUri = null, int maxAge = 86400, bool enforce = false)
         {
             ReportUri = reportUri;
             MaxAge = maxAge;
@@ -61,8 +53,12 @@ namespace OwaspHeaders.Core.Models
             {
                 stringBuilder.Append(", enforce");
             }
-            stringBuilder.Append(", report-uri=");
-            stringBuilder.Append($"\"{ReportUri}\"");
+
+            if (!string.IsNullOrWhiteSpace(this.ReportUri))
+            {
+                stringBuilder.Append(", report-uri=");
+                stringBuilder.Append($"\"{ReportUri}\"");
+            }
 
             return stringBuilder.ToString();
         }

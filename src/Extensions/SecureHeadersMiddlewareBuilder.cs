@@ -250,14 +250,9 @@ namespace OwaspHeaders.Core.Extensions
         /// </exception>
         public static SecureHeadersMiddlewareConfiguration UseExpectCt
             (this SecureHeadersMiddlewareConfiguration config,
-                string reportUri, int maxAge = 86400, bool enforce = false)
+                string reportUri = null, int maxAge = 86400, bool enforce = false)
         {
             config.UseExpectCt = true;
-
-            if (string.IsNullOrWhiteSpace(reportUri))
-            {
-                throw new ArgumentException($"Must supply value of {nameof(reportUri)} in {nameof(SecureHeadersMiddleware)}");
-            }
             
             config.ExpectCt = new ExpectCt(reportUri, maxAge, enforce);
             return config;
