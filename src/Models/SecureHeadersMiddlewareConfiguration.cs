@@ -42,6 +42,9 @@ namespace OwaspHeaders.Core.Models
         /// </summary>
         public bool UseExpectCt { get; set; }
         
+        /// <summary>
+        /// Indicates if the "X-Powered-By" header should be removed from the response.
+        /// </summary>
         public bool RemoveXPoweredByHeader { get; set; }
 
         /// <summary>
