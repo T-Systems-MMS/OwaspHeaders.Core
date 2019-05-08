@@ -33,7 +33,7 @@ steps:
     custom: 'pack'
     arguments: '--configuration $(buildConfiguration) --output $(build.artifactStagingDirectory)/pre --version-suffix "$(PrePackageSuffix)-$(Build.BuildNumber)"'
 - task: DotNetCoreCLI@2
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/head/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   displayName: 'Pack prod package'
   inputs:
     command: 'pack'
