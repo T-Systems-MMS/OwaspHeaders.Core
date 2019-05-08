@@ -19,6 +19,12 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 - task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: 'tests/**/*.csproj'
+    feedsToUse: 'select'
+    versioningScheme: 'off'
+- task: DotNetCoreCLI@2
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'master'))
   displayName: 'Pack pre-package'
   inputs:
