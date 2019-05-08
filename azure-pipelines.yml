@@ -36,11 +36,10 @@ steps:
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   displayName: 'Pack prod package'
   inputs:
-    command: 'pack'
-    feedsToUse: 'select'
+    command: 'custom'
+    custom: 'pack'
     packagesToPack: '**/*.csproj'
-    versioningScheme: 'off'
-    arguments: '-o "$(Build.ArtifactStagingDirectory)/prod" '
+    arguments: '--configuration $(buildConfiguration) --output $(build.artifactStagingDirectory)/prod'
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
