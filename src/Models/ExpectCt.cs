@@ -53,8 +53,7 @@ namespace OwaspHeaders.Core.Models
             {
                 stringBuilder.Append(", enforce");
             }
-
-            if (!string.IsNullOrWhiteSpace(this.ReportUri))
+            if (!string.IsNullOrWhiteSpace(ReportUri))
             {
                 stringBuilder.Append(", report-uri=");
                 stringBuilder.Append($"\"{ReportUri}\"");

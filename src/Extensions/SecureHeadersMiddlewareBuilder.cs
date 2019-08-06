@@ -253,7 +253,6 @@ namespace OwaspHeaders.Core.Extensions
                 string reportUri = null, int maxAge = 86400, bool enforce = false)
         {
             config.UseExpectCt = true;
-            
             config.ExpectCt = new ExpectCt(reportUri, maxAge, enforce);
             return config;
         }
