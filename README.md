@@ -10,6 +10,16 @@ A .NET Core middleware for injecting the Owasp recommended HTTP Headers for incr
 
 See the contents of the LICENSE file for details
 
+## Support This Project
+
+If you have found this project helpful, either as a library that you use or as a learning tool, please consider buying me a coffee:
+
+<a href="https://www.buymeacoffee.com/dotnetcoreshow" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important" ></a>
+
+## Code Triage Status
+
+[![Code Triagers Badge](https://www.codetriage.com/gaprogman/owaspheaders.core/badges/users.svg)](https://www.codetriage.com/gaprogman/owaspheaders.core)
+
 ## Code of Conduct
 ClacksMiddleware has a Code of Conduct which all contributors, maintainers and forkers must adhere to. When contributing, maintaining, forking or in any other way changing the code presented in this repository, all users must agree to this Code of Conduct.
 
