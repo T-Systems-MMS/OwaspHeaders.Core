@@ -220,7 +220,7 @@ namespace tests
             // assert
             if (!headerNotPresentConfig.UseContentSecurityPolicy)
             {
-                Assert.False(_context.Response.Headers.ContainsKey(Constants.XContentSecurityPolicyHeaderName));
+                Assert.False(_context.Response.Headers.ContainsKey(Constants.ContentSecurityPolicyHeaderName));
             }
         }
 
