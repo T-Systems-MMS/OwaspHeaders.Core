@@ -1,4 +1,5 @@
 using OwaspHeaders.Core.Enums;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace OwaspHeaders.Core.Models
     {
         protected ContentSecurityPolicySandBox() { }
 
-        public IList<CspSandboxType> SandboxTypes { get; set; }
+        public IEnumerable<CspSandboxType> SandboxTypes { get; set; }
 
         public ContentSecurityPolicySandBox(params CspSandboxType[] sandboxType)
         {
@@ -18,7 +19,12 @@ namespace OwaspHeaders.Core.Models
 
         public string BuildHeaderValue()
         {
+            if(SandboxTypes == null || !SandboxTypes.Any())
+            {
+                return "sandbox; ";
+            }
             var returnStr = new StringBuilder("sandbox");
+
             foreach (var sandboxType in SandboxTypes)
             {
                 switch (sandboxType)
